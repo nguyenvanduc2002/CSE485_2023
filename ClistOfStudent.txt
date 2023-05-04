@@ -1,0 +1,7 @@
+01   vungocanh       thaibinh
+02   nguyenvanduc    hanoi
+03   buiminhhai      thaibinh
+04   hoangdinhdung   namdinh
+05   lechiduy        phutho
+06   ngominhnam      bacninh
+07   vutramy         haiduong
