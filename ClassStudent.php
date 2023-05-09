@@ -19,10 +19,10 @@
 	</style>
 </head>
 <body>
-	<?php
+  <?php
 	
 	// Đọc dữ liệu từ tệp văn bản:
-	$data = file_get_contents('data.txt');
+	$data = file_get_contents('ClistOfStudent.txt');
     $lines = explode(PHP_EOL, $data); // chuyển dữ liệu thành mảng các dòng
 	// Thêm dữ liệu
 	if (isset($_POST['submit'])) {
@@ -32,7 +32,7 @@
         $new_line = "$name|$email" . PHP_EOL; // tạo một dòng mới
       
         // Thêm dòng mới vào cuối tệp văn bản
-        file_put_contents('data.txt', $new_line, FILE_APPEND);
+        file_put_contents('ClistOfStudent.txt', $new_line, FILE_APPEND);
       
         echo "New record created successfully";
       }
@@ -47,7 +47,7 @@
         $lines[$id] = "$name|$email";
       
         // Ghi lại toàn bộ dữ liệu vào tệp văn bản
-        file_put_contents('data.txt', implode(PHP_EOL, $lines));
+        file_put_contents('ClistOfStudent.txt', implode(PHP_EOL, $lines));
       
         echo "Record updated successfully";
       }
@@ -60,9 +60,10 @@
         unset($lines[$id]);
       
         // Ghi lại toàn bộ dữ liệu vào tệp văn bản
-        file_put_contents('data.txt', implode(PHP_EOL, $lines));
+        file_put_contents('ClistOfStudent.txt', implode(PHP_EOL, $lines));
       
         echo "Record deleted successfully";
     }
+?>
 </body>
 </html>
