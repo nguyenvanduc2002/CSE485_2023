@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>CRUD Example</title>
+	<title>danh sach sinh vien</title>
 	<style>
 		table {
 			border-collapse: collapse;
@@ -19,103 +19,51 @@
 	</style>
 </head>
 <body>
-	<?php
-	$host = "localhost";
-	$username = "your_username";
-	$password = "your_password";
-	$dbname = "your_database";
-
-	// Kết nối với CSDL
-	$conn = mysqli_connect($host, $username, $password, $dbname);
-
-	if (!$conn) {
-	  die("Connection failed: " . mysqli_connect_error());
-	}
-
+  <?php
+	
+	// Đọc dữ liệu từ tệp văn bản:
+	$data = file_get_contents('ClistOfStudent.txt');
+    $lines = explode(PHP_EOL, $data); // chuyển dữ liệu thành mảng các dòng
 	// Thêm dữ liệu
 	if (isset($_POST['submit'])) {
-	  $name = $_POST['name'];
-	  $email = $_POST['email'];
-
-	  $sql = "INSERT INTO users (name, email) VALUES ('$name', '$email')";
-
-	  if (mysqli_query($conn, $sql)) {
-	    echo "New record created successfully";
-	  } else {
-	    echo "Error: " . $sql . "<br>" . mysqli_error($conn);
-	  }
-	}
+        $name = $_POST['name'];
+        $email = $_POST['email'];
+      
+        $new_line = "$name|$email" . PHP_EOL; // tạo một dòng mới
+      
+        // Thêm dòng mới vào cuối tệp văn bản
+        file_put_contents('ClistOfStudent.txt', $new_line, FILE_APPEND);
+      
+        echo "New record created successfully";
+      }
 
 	// Sửa dữ liệu
 	if (isset($_POST['update'])) {
-	  $id = $_POST['id'];
-	  $name = $_POST['name'];
-	  $email = $_POST['email'];
-
-	  $sql = "UPDATE users SET name='$name', email='$email' WHERE id=$id";
-
-	  if (mysqli_query($conn, $sql)) {
-	    echo "Record updated successfully";
-	  } else {
-	    echo "Error updating record: " . mysqli_error($conn);
-	  }
-	}
+        $id = $_POST['id'];
+        $name = $_POST['name'];
+        $email = $_POST['email'];
+      
+        // Chỉnh sửa dòng tương ứng trong mảng $lines
+        $lines[$id] = "$name|$email";
+      
+        // Ghi lại toàn bộ dữ liệu vào tệp văn bản
+        file_put_contents('ClistOfStudent.txt', implode(PHP_EOL, $lines));
+      
+        echo "Record updated successfully";
+      }
 
 	// Xóa dữ liệu
 	if (isset($_GET['delete'])) {
-	  $id = $_GET['delete'];
-
-	  $sql = "DELETE FROM users WHERE id=$id";
-
-	  if (mysqli_query($conn, $sql)) {
-	    echo "Record deleted successfully";
-	  } else {
-	    echo "Error deleting record: " . mysqli_error($conn);
-	  }
-	}
-
-	// Lấy dữ liệu từ CSDL
-	$sql = "SELECT * FROM users";
-	$result = mysqli_query($conn, $sql);
-	?>
-
-	<h2>CRUD Example</h2>
-
-	<!-- Form thêm dữ liệu -->
-	<h3>Add User</h3>
-	<form method="post" action="">
-		<label for="name">Name:</label>
-		<input type="text" name="name" id="name">
-		<br><br>
-		<label for="email">Email:</label>
-		<input type="text" name="email" id="email">
-		<br><br>
-		<input type="submit" name="submit" value="Add User">
-	</form>
-	<br><br>
-
-	<!-- Danh sách dữ liệu -->
-	<h3>User List</h3>
-	<table>
-		<tr>
-			<th>ID</th>
-			<th>Name</th>
-			<th>Email</th>
-			<th>Action</th>
-		</tr>
-		<?php while($row = mysqli_fetch_assoc($result)) { ?>
-		<tr>
-			<td><?php echo $row['id']; ?></td>
-			<td><?php echo $row['name']; ?></td>
-			<td><?php echo $row['email']; ?></td>
-			<td>
-				<a href="edit.php?id=<?php echo $row['id']; ?>">Edit</a>
-				<a href="?delete=<?php echo $row['id']; ?>" onclick="return confirm('Are you sure you want to delete this record?')">Delete</a>
-			</td>
-		</tr>
-		<?php } ?>
-	</table>
-
-	<?php mysqli_close($conn); ?>
+        $id = $_GET['delete'];
+      
+        // Xóa dòng tương ứng trong mảng $lines
+        unset($lines[$id]);
+      
+        // Ghi lại toàn bộ dữ liệu vào tệp văn bản
+        file_put_contents('ClistOfStudent.txt', implode(PHP_EOL, $lines));
+      
+        echo "Record deleted successfully";
+    }
+?>
 </body>
 </html>
