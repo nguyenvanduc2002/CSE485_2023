@@ -36,7 +36,7 @@
     if(count($_POST) > 0 ){
 
         $file = fopen("ClistOfStudent.txt", "a");
-        $new_data = array("\n",$_POST["msv"], $_POST["name"], $_POST["address"]);
+        $new_data = array($_POST["msv"], $_POST["name"], $_POST["address"]);
 
         fputcsv($file,$new_data);
         fclose($file);
@@ -53,9 +53,9 @@
     <label for="msv">Mã SV:</label>
     <input type="text" name="msv" id="msv">
     <label for="name">Họ Tên:</label>
-    <input type="name" name="name" id="name">
+    <input type="text" name="name" id="name">
     <label for="address">Địa chỉ :</label>
-    <input type="tel" name="address" id="address">
+    <input type="text" name="address" id="address">
     <input type="submit" value="Thêm">
 </form>
 
